@@ -11,25 +11,73 @@
     <div class="menu-content">
       <div class="header">基础组件</div>
       <div class="widget-wrapper">
-        <div class="widget-item">
+        <div class="widget-item" v-for="item in list" :key="item.value" @click="onSelect(item)">
           <check-circle-outlined style="color: #1055ff;"/>
-          <span>单选框</span>
+          <span>{{ item.title }}</span>
         </div>
         <div class="widget-item">
           <check-circle-outlined style="color: #1055ff;"/>
-          <span>多选框</span>
+          <span>视频</span>
         </div>
         <div class="widget-item">
           <check-circle-outlined style="color: #1055ff;"/>
-          <span>文本</span>
+          <span>导航栏</span>
+        </div>
+        <div class="widget-item">
+          <check-circle-outlined style="color: #1055ff;"/>
+          <span>轮播图</span>
+        </div>
+        <div class="widget-item">
+          <check-circle-outlined style="color: #1055ff;"/>
+          <span>富文本</span>
+        </div>
+        <div class="widget-item">
+          <check-circle-outlined style="color: #1055ff;"/>
+          <span>图片热区</span>
         </div>
       </div>
+      <div class="header">业务组件</div>
+        <div class="widget-wrapper">
+          <div class="widget-item">
+            <check-circle-outlined style="color: #1055ff;"/>
+            <span>商品</span>
+          </div>
+          <div class="widget-item">
+            <check-circle-outlined style="color: #1055ff;"/>
+            <span>商品列表</span>
+          </div>
+          <div class="widget-item">
+            <check-circle-outlined style="color: #1055ff;"/>
+            <span>商品组</span>
+          </div>
+          <div class="widget-item">
+            <check-circle-outlined style="color: #1055ff;"/>
+            <span>导航栏</span>
+          </div>
+          <div class="widget-item">
+            <check-circle-outlined style="color: #1055ff;"/>
+            <span>优惠券</span>
+          </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { AppstoreOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
+
+defineProps({
+  list: {
+    type: Array,
+    required: true
+  }
+})
+
+const emit = defineEmits(['select'])
+
+const onSelect = (item) => {
+  emit('select', item)
+}
 </script>
 
 <style scoped lang="scss">
@@ -44,11 +92,11 @@ import { AppstoreOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
 }
 .menu-content {
   flex: 1;
-  padding: 24px;
+  padding: 0 24px;
   .header {
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 12px;
+    margin-top: 24px;
   }
   .widget-wrapper {
     display: flex;

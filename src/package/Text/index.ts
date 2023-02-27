@@ -1,14 +1,9 @@
-export const generateDefaultValueObj = (schema: any) => {
-  const defaultValueObj: any = {}
-  Object.keys(schema.properties).forEach(key => {
-    defaultValueObj[key] = schema.properties[key].defaultValue
-  })
-  return defaultValueObj
-}
+export * as Widget from "./Widget.vue"
 
 export const schema = {
   type: 'object',
   widget: 'text',
+  title: '文本',
   properties: {
     text: {
       type: "string",
