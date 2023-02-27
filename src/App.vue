@@ -7,16 +7,25 @@
       </a-layout-sider>
       <a-layout-content>
         <div class="box">
-          <div class="content"></div>
+          <div class="content">
+            <Text :options="defaultOptions"></Text>
+          </div>
         </div>
       </a-layout-content>
-      <a-layout-sider style="background-color: #fff;" width="240">Sider</a-layout-sider>
+      <a-layout-sider style="background-color: #fff;padding: 24px;" width="240">
+        <h3>配置项：</h3>
+        <Options :schema="schema" :options="defaultOptions"></Options>
+      </a-layout-sider>
     </a-layout>
   </a-layout>
 </template>
 
-<script setup lang="ts">
-
+<script setup lang="tsx">
+import Text from "./package/Text/widget.vue";
+import { schema, generateDefaultValueObj } from "./package/Text";
+import Options from "./options";
+const value3 = ref("")
+const defaultOptions = reactive(generateDefaultValueObj(schema));
 </script>
 
 <style scoped>
