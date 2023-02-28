@@ -8,13 +8,13 @@
       <a-layout-content>
         <div class="box">
           <div class="content">
-            <component v-for="comp in componentInScreen" :is="comp.Widget" :options="comp.options"></component>
+            <component v-for="comp in componentsInScreen" :is="componentMap[comp.componentName].component" v-bind="comp.options"></component>
           </div>
         </div>
       </a-layout-content>
       <a-layout-sider style="background-color: #fff;padding: 24px;" width="240">
         <h3>配置项：</h3>
-        <Options :schema="schema" :options="currentComponentOptions"></Options>
+        <Options v-if="selectedComponent" :schema="componentMap[selectedComponent.componentName].schema" :options="selectedComponent.options"></Options>
       </a-layout-sider>
     </a-layout>
   </a-layout>
@@ -23,23 +23,31 @@
 <script setup lang="tsx">
 import { nanoid } from 'nanoid'
 import Options from "./options";
-import { schema } from "./package/Text"
 import { generateDefaultValueObj } from "./utils";
 
-const modules = import.meta.glob("./package/**/index.ts");
+// TODO:使用Suspense来实现组件加载
+const componentMap = shallowReactive<{
+  [propName: string]: {
+    component: any,
+    schema: any
+  }
+}>({})
 
-const components = reactive([])
+function loadPackage() {
+  const modules = import.meta.glob("./package/**/index.ts");
 
-for (const path in modules) {
-  modules[path]().then((mod) => {
-    components.push(mod)
-  })
+  for (const path in modules) {
+    modules[path]().then(({ Widget, schema }) => {
+      componentMap[schema.widget] = { component: Widget.default, schema }
+    })
+  }
 }
+
+loadPackage()
 
 // 获取菜单列表
 const menuList = computed(() => {
-  return components.map((item: any) => {
-    console.log(item)
+  return Object.values(componentMap).map((item: any) => {
     return {
       value: item.schema.widget,
       title: item.schema.title,
@@ -48,22 +56,29 @@ const menuList = computed(() => {
   });
 });
 
-const value3 = ref("")
-const defaultOptions = reactive(generateDefaultValueObj(schema));
-
-const componentInScreen = reactive([])
-
-const currentComponentOptions = ref({})
+// 存储screen中的组件
+const componentsInScreen = reactive<{
+  uuid: string,
+  componentName: string,
+  options: any
+}[]>([])
+// 当前选中的组件
+const selectedComponent = ref<{
+  uuid: string,
+  componentName: string,
+  options: any
+}>()
 
 function onAddComp (item: any) {
-  console.log(item)
   // 根据组件名称获取组件，添加到componentInScreen中
-  const { Widget, schema } = components.find((item2: any) => item2.schema.widget === item.value)
-  componentInScreen.push({
-    uuid: nanoid(),
-    Widget: Widget.default, options: generateDefaultValueObj(schema)
+  const { schema } = componentMap[item.value]
+  componentsInScreen.push({
+    uuid: nanoid(), // 唯一标识
+    componentName: schema.widget, // 组件名称
+    options: generateDefaultValueObj(schema) // 组件配置项
   })
-  currentComponentOptions.value = componentInScreen[componentInScreen.length - 1].options
+
+  selectedComponent.value = componentsInScreen[componentsInScreen.length - 1]
 }
 </script>
 

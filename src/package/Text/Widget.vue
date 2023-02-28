@@ -1,27 +1,28 @@
 <template>
   <div class="text">
-    {{ options.text }}
+    {{ text }}
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-  options: {
-    type: Object,
-    required: true
-  }
+  text: String,
+  size: String,
+  color: String,
+  align: String,
+  weight: String
 })
 
 const fontSize = computed(() => {
-  return props.options.size + "px"
+  return props.size + "px"
 })
 </script>
 
 <style scoped>
 .text {
-  color: v-bind("options.color");
-  text-align: v-bind("options.align");
+  color: v-bind("color");
+  text-align: v-bind("align");
   font-size: v-bind("fontSize");
-  font-weight: v-bind("options.weight");
+  font-weight: v-bind("weight");
 }
 </style>

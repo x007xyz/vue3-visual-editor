@@ -1,6 +1,6 @@
 <template>
-  <div class="image-wrapper">
-    <img :src="url" alt="">
+  <div class="video-wrapper">
+    <video class="video" :src="url" controls></video>
   </div>
 </template>
 
@@ -11,10 +11,10 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.image-wrapper {
+.video-wrapper {
   width: 100%;
 }
-.image-wrapper img {
+.video {
   width: 100%;
 }
 </style>

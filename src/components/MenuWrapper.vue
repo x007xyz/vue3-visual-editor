@@ -15,26 +15,6 @@
           <check-circle-outlined style="color: #1055ff;"/>
           <span>{{ item.title }}</span>
         </div>
-        <div class="widget-item">
-          <check-circle-outlined style="color: #1055ff;"/>
-          <span>视频</span>
-        </div>
-        <div class="widget-item">
-          <check-circle-outlined style="color: #1055ff;"/>
-          <span>导航栏</span>
-        </div>
-        <div class="widget-item">
-          <check-circle-outlined style="color: #1055ff;"/>
-          <span>轮播图</span>
-        </div>
-        <div class="widget-item">
-          <check-circle-outlined style="color: #1055ff;"/>
-          <span>富文本</span>
-        </div>
-        <div class="widget-item">
-          <check-circle-outlined style="color: #1055ff;"/>
-          <span>图片热区</span>
-        </div>
       </div>
       <div class="header">业务组件</div>
         <div class="widget-wrapper">
